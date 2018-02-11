@@ -15,8 +15,7 @@ from google.cloud.vision import types
 from google.auth import app_engine
 
 
-#Waqar Haider 
-#U10664814
+#Haider 
 #--------------------------
 #    Current Staging 
 
