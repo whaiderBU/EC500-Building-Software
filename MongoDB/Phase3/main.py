@@ -7,7 +7,7 @@
 import tweet as tw
 import mov as movie
 import mongoDatabase as db
-import googleVision as ggl
+import googleVision as goog
 import wget
 import os
 import shutil
@@ -45,7 +45,7 @@ imgLabels = []
         try:
             imageCount = tw.get_all_tweets(handle, output) #from import tw 
             if (imageCount >= 1):
-                imgLabels.append(ggl.lable_images())
+                imgLabels.append(goog.lable_images())
                 movie.mov()
                 db.insertMongo(handle, datetime.datetime.now(), imgLabels, imageCount)
             else:
