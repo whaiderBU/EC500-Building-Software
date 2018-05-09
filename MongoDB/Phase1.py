@@ -1,50 +1,62 @@
+# Phase 1
+# Waqar Haider 
+# Task  : Write a python program to import the airport location data
+# Demonstrate the following functions
+# Read data
+# Update data
+# Search and find data
+
+
 import json
 import os
+import numpy as np
 from pymongo import MongoClient
 
-# function to connect to Mongodb and initialize database
 def Initialize():
-    fname = open("airports.json", 'r')
+client = MongoClient('localhost', 27017)
+db = client['airport-database']
+
+ fname = open("airports.json", 'r')
     data = json.load(fname.read())
     client = MongoClient('localhost:27017')
     db = client.Airports
     db.Airports.insert_many(data)
-    
-# function to add new airports to database    
+
+# function to add new airports
 def Insert(code, lat, lon, name, city, state, country, woeid, tz, phone, email, url, runwayLen, elev, icao, directFlights, carriers):
     try:
         
-        client = MongoClient()
-        db = client.Airports
-        airport = {
-                    "code": code,
-                "lat": lat,
-                "lon": lon,
-                "name": name,
-                "city": city,
-                "state": state,
-                "country": country,
-                "woeid": woeid,
-                "tz": tz,
-                "phone": phone,
-                "email": email,
-                "url": url,
-                "runway_length": runwayLen,
-                "elev": elev,
-                "icao": icao,
-                "direct_flights": directFlights,
-                "carriers": carriers
-                }
-        
-        db.Airports.insert(airport)
+    client = MongoClient()
+    db = client.Airports
+    airport = {
+    			"code": code,
+             "lat": lat,
+             "lon": lon,
+             "name": name,
+             "city": city,
+             "state": state,
+             "country": country,
+             "woeid": woeid,
+             "tz": tz,
+             "phone": phone,
+             "email": email,
+             "url": url,
+             "runway_length": runwayLen,
+             "elev": elev,
+             "icao": icao,
+             "direct_flights": directFlights,
+             "carriers": carriers
+             }
+    
+    db.Airports.insert(airport)
     
     except Exception, e:
         print str(e)
     
-# function to update specific field in an airport in the database        
+# function to update   
  def Update(query, field, value):
         try:
-            
+        
         client = MongoClient()
         db = client.Airports
         updateValue = {field:value}
@@ -53,6 +65,7 @@ def Insert(code, lat, lon, name, city, state, country, woeid, tz, phone, email, 
         except Exception, e:
             print str(e)
     
+# function to update   
  def Search(query, projection):
     try:
         
@@ -67,43 +80,40 @@ def Insert(code, lat, lon, name, city, state, country, woeid, tz, phone, email, 
     except Exception, e:
         print str(e)
 
-#function to prompt user for action to perform        
- def main(): 
-     if __name__ == "__main__":
-        os.system("mongod")
-        Initialize()
-        while(1):
-            selection = raw_input("Choose an action to perform on airport database:\n -To insert new airport type 1\n -For searching type 2\n -To update type 3\n")
+#MAIN 
+def main():
 
-            if selection == 1:
-                    print("Please enter the following fields: \n")
-                code = raw_input("Airport code: ")
-                lat = raw_input("Latitude coordinate: ")
-                lon = raw_input("Longitude coordinate: ")
-                name = raw_input("Airport name: ")
-                city = raw_input("City: ")
-                state = raw_input("State: ")
-                country = raw_input("Country: ")
-                woeid = raw_input("woeid: ")
-                tz = raw_input("tz: ")
-                phone = raw_input("Phone number: ")
-                email = raw_input("Email address: ")
-                url = raw_input("url: ")
-                runway = raw_input("runway length: ")
-                elevation = raw_input("elevation: ")
-                icao = raw_input("icao: ")
-                directFlights = raw_input("direct flights: ")
-                carriers = raw_input("carriers: ")
-                Add(code, lat, lon, name, city, state, country, woeid, tz, phone, email, url, runway, elevation, icao, directFlights, carriers)
-                Find(field, val)
-            elif selection == 2:
-                query = raw_input("Please enter the field you are looking for: ")
-                projection = raw_input("Please enter a keyword: ")
-                Search(query, projection)
-            elif selection == 3:
-                query = raw_input("Please enter the code for the airport to update: ")
-                field = raw_input("Please enter a field to update: ")
-                val = raw_input("Please enter the updated value for the field: ") 
-                Update(query, field, val)
-            else:
-                print("ERROR! Invalid input")
+with open('airports.json') as data_file:
+    data = json.load(data_file)
+
+    for index, value in enumerate(data):  # iterate through the json document
+        posts = db.posts
+        post_data = {
+
+            "code": data[index]['code'],
+            "lat": data[index]['lat'],
+            "lon": data[index]['lon'],
+            "name": data[index]['name'],
+            "city": data[index]['city'],
+            "state": data[index]['state'],
+            "country": data[index]['country'],
+            "woeid": data[index]['woeid'],
+            "tz": data[index]['tz'],
+            "phone": data[index]['phone'],
+            "type": data[index]['type'],
+            "email": data[index]['email'],
+            "url": data[index]['url'],
+            "runway_length": data[index]['runway_length'],
+            "elev": data[index]['elev'],
+            "direct_flights": data[index]['direct_flights'],
+            "icao": data[index]['icao'],
+            "carriers": data[index]['carriers']
+        }
+        
+        result = posts.insert_one(post_data)
+        print("successful " + str(index))
+
+
+
+
+
